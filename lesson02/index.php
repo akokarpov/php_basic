@@ -7,8 +7,8 @@ b.	Если $а и $b отрицательные, вывести их произ
 c.	Если $а и $b разных знаков, вывести их сумму.
 Ноль можно считать положительным числом.*/
 
-$a = rand(1, 10);
-$b = rand(1, 10);
+$a = rand(-10, 10);
+$b = rand(-10, 10);
 if($a >= 0 && $b >= 0) {
     echo $a - $b;
 } elseif ($a < 0 && $b < 0) {
@@ -26,67 +26,51 @@ $a = rand(0, 15);
 switch ($a) {
     case 0:
         echo 0;
-        break;
     
     case 1:
         echo 1;
-        break;
 
     case 2:
-        echo 1;
-        break;
+        echo 2;
     
     case 3:
         echo 3;
-        break;
-
-    case 3:
-        echo 3;
-        break;
 
     case 4:
         echo 4;
-        break;
-    
+
+    case 4:
+        echo 4;
+
     case 5:
         echo 5;
-        break;
         
     case 6:
         echo 6;
-        break;
 
     case 7:
         echo 7;
-        break;
 
     case 8:
         echo 8;
-        break;
 
     case 9:
         echo 9;
-        break;
     
     case 10:
         echo 10;
-        break;
 
     case 11:
         echo 11;
-        break;
 
     case 12:
         echo 12;
-        break;
 
     case 13:
         echo 13;
-        break;
 
     case 14:
         echo 14;
-        break;
 
     case 15:
         echo 15;
