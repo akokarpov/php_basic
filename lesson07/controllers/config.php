@@ -37,9 +37,4 @@ function goodGet($connect, $id){
     return $good;
 }
 
-
-
-
-
-
 ?>
