@@ -8,7 +8,7 @@ if($_GET['action']) {
 
 <div>
     <?php
-    if($goodsInCart) {
+    if($goodsInCart){
         $totalCart = 0;
         foreach($goodsInCart as $good):?>
             <p><strong>Товар:&nbsp;</strong><?=$good['title']?></p>

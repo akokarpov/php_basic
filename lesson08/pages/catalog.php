@@ -1,7 +1,8 @@
 <?php include "controllers/config.php";
-
-
-
+if($_GET['action']) {
+    $message = cartManager($connect, $_GET['goodId'], $_GET['action']);
+    echo $message;
+}
 ?>
 
 <div claSs='flexcontainer'>
@@ -12,7 +13,7 @@
                 <a href="?page=item&id=<?=$good['id']?>"><img src="../img/thumbnails/<?=$good['image']?>" alt="<?=$good['image']?>"></a>
                 <h4><a href="?page=item&id=<?=$good['id']?>"><?=$good['title']?></a></h4>
                 <p><?=$good['price']?>&nbsp;&#8381;</p>
-                <p><a class='to-cart-button' href="#" title="Добавить в корзину">Купить</a></p>
+                <a href="/?page=catalog&goodId=<?=$good['id']?>&action=addGood"><button>Купить</button></a>
             </div>
         <?endforeach;
     }?>

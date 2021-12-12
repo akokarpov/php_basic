@@ -29,38 +29,40 @@ function getGoodsInCart($connect) {
 }
 
 function cartManager($connect, $goodId, $action) {
+    $goodId = (int)$goodId;
+    $message = "";
     switch ($action) {
         case 'addGood':
-            $sqlQuery = "insert into cart values (id, " . (int)$goodId . ", 1, {$_SESSION['userId']}, 0)";
-            break;
-        case 'addCount':
-            $sqlQuery = "update cart set count=count+1 where goodId = " . (int)$goodId;
-            break;
-        case 'remCount':
-            $sqlQuery = "select count from cart where goodId = ". (int)$goodId;
+            $sqlQuery = "select id from cart where goodId = ". $goodId;
             $answer = mysqli_query($connect, $sqlQuery);
-            $count = mysqli_fetch_assoc($answer)['count'];
-            if($count > 1){   
-                $sqlQuery = "update cart set count=count-1 where goodId = " . (int)$goodId;    
+            $goodInCart = mysqli_fetch_assoc($answer)['id'];
+            if($goodInCart == null) {
+                $sqlQuery = "insert into cart values (id, $goodId, 1, {$_SESSION['userId']}, 0)";
+                $message .= "<h1 style='color: darkgreen'>Товар успешно добавлен в корзину!</h1><br>";
             } else {
-                $sqlQuery = "delete from cart where goodId = " . (int)$goodId;         
+                $sqlQuery = "update cart set count=count+1 where goodId = $goodId";
+                $message .= "<h1 style='color: darkgreen'>Товар был в корзине! Добавили еще одну единицу!</h1><br>";
             }
             break;
         case 'delGood':
-            $sqlQuery = "delete from cart where goodId = " . (int)$goodId;
+            $sqlQuery = "delete from cart where goodId = $goodId";
+            break;
+        case 'addCount':
+            $sqlQuery = "update cart set count=count+1 where goodId = $goodId";
+            break;
+        case 'remCount':
+            $sqlQuery = "select count from cart where goodId = $goodId";
+            $answer = mysqli_query($connect, $sqlQuery);
+            $count = mysqli_fetch_assoc($answer)['count'];
+            if($count > 1){   
+                $sqlQuery = "update cart set count=count-1 where goodId = $goodId";    
+            } else {
+                $sqlQuery = "delete from cart where goodId = $goodId";         
+            }
             break;
     }
     mysqli_query($connect, $sqlQuery);
-
-    $sqlQuery = "SELECT goodId, title, price * count AS sum, count FROM goods INNER JOIN cart ON cart.goodId = goods.id AND userId = {$_SESSION['userId']}";
-    $answer = mysqli_query($connect, $sqlQuery);
-    if(!$answer) {
-        die(mysqli_error($connect));
-    }
-    while($data = mysqli_fetch_assoc($answer)) {
-        $goodsInCart[] = $data;
-    }
-    return $goodsInCart;
+    return $message;
 }
 
 function goodsAll($connect) {

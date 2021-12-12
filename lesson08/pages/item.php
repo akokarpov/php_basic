@@ -4,6 +4,10 @@
         $id = (int)$_GET['id'];
     }
     $good = goodGet($connect, $id);
+    if($_GET['action']) {
+        $message = cartManager($connect, $_GET['id'], $_GET['action']);
+        echo $message;
+    }
 ?>
 
 <div>
@@ -13,5 +17,5 @@
     <p><?=$good['spec']?></p>
     <h3>Цена:</h3>
     <p><?=$good['price']?>&nbsp;&#8381;</p>
-    <h3><a class='to-cart-button' href="#" title="Добавить в корзину">Купить</a></h3>
+    <a href="/?page=item&id=<?=$id?>&action=addGood" title="Добавить в корзину"><button>Купить</button></a>
 </div>
