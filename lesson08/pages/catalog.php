@@ -3,6 +3,7 @@ if($_GET['action']) {
     $message = cartManager($connect, $_GET['goodId'], $_GET['action']);
     echo $message;
 }
+$goods = goodsAll($connect);
 ?>
 
 <div claSs='flexcontainer'>

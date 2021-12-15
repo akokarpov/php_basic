@@ -18,7 +18,7 @@ if($_POST['signIn']){
             $_SESSION['userName'] = $data['username'];
             if($data['admin'] == 1) {
                 $_SESSION['admin'] = true;
-                header("Location: /?page=admin");
+                header("Location: /?page=orders");
             } else {
                 $_SESSION['admin'] = false;
                 header("Location: /");

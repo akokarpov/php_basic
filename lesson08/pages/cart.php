@@ -1,14 +1,19 @@
 <?php
-include "./controllers/config.php";
-if($_GET['action']) {
-    cartManager($connect, $_GET['goodId'], $_GET['action']);
-    header('Location: /?page=cart');
-}
-?>
+    include "./controllers/config.php";
+    $goodsInCart = getGoodsInCart($connect);
+    
+    if($_GET['action']) {
+        cartManager($connect, $_GET['goodId'], $_GET['action']);
+        header('Location: /?page=cart');
+    }
+    if($_GET['order' == 'done']) {
+        // header('Location: /?page=cart');
+        echo "<h1 style='color: darkgreen'>Заказ успешно оформлен!</h1>";            
+    }
 
-<div>
-    <?php
-    if($goodsInCart){
+    if($goodsInCart):?>
+        <div>
+        <?php
         $totalCart = 0;
         foreach($goodsInCart as $good):?>
             <p><strong>Товар:&nbsp;</strong><?=$good['title']?></p>
@@ -21,8 +26,13 @@ if($_GET['action']) {
             <br>
             <hr>
             <?php $totalCart += intval($good['sum']);?>
-        <?endforeach;
-        echo "<h1> Итого: $totalCart&nbsp;&#8381;.</h1><br>";
-        echo "<button type='add' value='del'>Оформить заказ</button>";
-    }?>
-</div>
+            <?
+            endforeach;
+            ?>
+        <h1>Итого: <?=$totalCart?>&nbsp;&#8381;.</h1>
+        <br>
+        <a href="/?page=cart&order=done"><button>Сделать заказ</button></a>
+        </div>
+        <?
+    endif;
+?>

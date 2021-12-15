@@ -24,8 +24,8 @@
         case 'profile':
             include "pages/profile.php";
             break;
-        case 'admin':
-            include "pages/admin.php";
+        case 'orders':
+            include "pages/orders.php";
             break;
             
     //      case 'add_good':

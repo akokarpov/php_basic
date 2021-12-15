@@ -18,7 +18,7 @@ $menuAuthed = [
 ];
 
 $menuAdmin = [
-    "Администратор"=>"?page=admin",
+    "Админ(Заказы)"=>"?page=orders",
 ];
 
 switch ($_SESSION['userId']) {
