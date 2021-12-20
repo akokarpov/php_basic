@@ -3,7 +3,7 @@
 $menu = [
     "Главная"=>"/",
     "Каталог"=>"?page=catalog",
-    "Фото"=>"?page=gallery",
+    // "Фото"=>"?page=gallery",
 ];
 
 $menuNonAuthed = [
@@ -12,13 +12,14 @@ $menuNonAuthed = [
 
 $menuAuthed = [
     "Корзина"=>"?page=cart",
-    "Отзывы" => "?page=feedback",
+    // "Отзывы" => "?page=feedback",
     "Личный кабинет"=>"?page=profile",
     "Выйти({$_SESSION['userName']})"=>"?page=exit",
 ];
 
 $menuAdmin = [
     "Админ(Заказы)"=>"?page=orders",
+    "Админ(Товары)"=>"?page=goods",
 ];
 
 switch ($_SESSION['userId']) {

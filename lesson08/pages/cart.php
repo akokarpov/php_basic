@@ -6,9 +6,10 @@
         cartManager($connect, $_GET['goodId'], $_GET['action']);
         header('Location: /?page=cart');
     }
-    if($_GET['order' == 'done']) {
-        // header('Location: /?page=cart');
-        echo "<h1 style='color: darkgreen'>Заказ успешно оформлен!</h1>";            
+    if($_GET['order'] == 'place') {
+        placeOrder($connect);           
+    } elseif($_GET['order'] == 'done') {
+        echo "<h1 style='color: darkgreen'>Заказ успешно оформлен!</h1>";
     }
 
     if($goodsInCart):?>
@@ -31,7 +32,7 @@
             ?>
         <h1>Итого: <?=$totalCart?>&nbsp;&#8381;.</h1>
         <br>
-        <a href="/?page=cart&order=done"><button>Сделать заказ</button></a>
+        <a href="/?page=cart&order=place"><button>Сделать заказ</button></a>
         </div>
         <?
     endif;

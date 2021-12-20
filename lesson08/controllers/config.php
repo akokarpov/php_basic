@@ -11,10 +11,55 @@ $connect = mysqli_connect(SERVER,LOGIN,PASS,DB);
 
 // Functions
 
-function getGoodsInCart($connect, $status=0) {
+function goodManager($connect, $goodId) {
+    $sqlQuery = "delete from goods where id = $goodId";
+    if(mysqli_query($connect,$sqlQuery)) {
+        header('Location: /?page=catalog&status=goodDeleted');
+    }
+}
+
+function getOrders($connect) {
+    $sqlQuery = "SELECT cartIds, date FROM orders where status = 1";
+    $answer = mysqli_query($connect, $sqlQuery);
+    $ordersList = [];
+    while($data = mysqli_fetch_assoc($answer)) {
+        $orderDate = $data['date'];
+        $cartIds = explode(",", $data['cartIds']);
+        $goodsInOrder = [];
+        for ($i=0; $i < count($cartIds); $i++) {
+            $sqlQuery = "SELECT title, count, price, price * count AS sum FROM goods
+            INNER JOIN cart ON cart.id = $cartIds[$i] and cart.goodId = goods.id and status = 1";
+            $res = mysqli_query($connect, $sqlQuery);
+            $goodsData = mysqli_fetch_assoc($res);
+            $goodsInOrder[] = $goodsData;
+        }
+        $ordersList[$orderDate] = $goodsInOrder;        
+    }
+    return $ordersList;
+}
+
+function placeOrder($connect) {
+
+    $sqlQuery = "select id from cart WHERE userId = {$_SESSION['userId']} AND status = 0";
+    $answer = mysqli_query($connect, $sqlQuery);
+    while($data = mysqli_fetch_assoc($answer)) {
+        $goodsIds[] = $data['id'];
+    }
+    $ids = implode(",", $goodsIds);
+    $now = date('d.m.Y H:i:s');
+    $sqlQuery = "insert into orders values (id, '{$ids}', '{$now}', 1)";
+    mysqli_query($connect, $sqlQuery);
+
+    $sqlQuery = "update cart set status=1 WHERE userId = {$_SESSION['userId']} AND status = 0";
+    mysqli_query($connect, $sqlQuery);
+
+    header('Location: /?page=cart&order=done');
+}
+
+function getGoodsInCart($connect) {
     $sqlQuery = "SELECT goodId, title, price * count AS sum, count FROM goods
     INNER JOIN cart ON cart.goodId = goods.id
-    AND userId = {$_SESSION['userId']} AND status = {$status}";
+    AND userId = {$_SESSION['userId']} AND status = 0";
     $answer = mysqli_query($connect, $sqlQuery);
     if(!$answer) {
         die(mysqli_error($connect));
